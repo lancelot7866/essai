@@ -1,0 +1,26 @@
+
+
+
+                                            Convertisseur de port COM USB-to-Serial 
+Souslinux mint 20.3
+
+
+Lorsqu’on souhaite configurer un équipement Cisco en passant par le port console et que l’on ne dispose pas de port série sur sa machine, il faut faire appel à un adaptateur USB-Série qui supporte la norme RS232.
+
+
+
+$ sudo nano /etc/udev/rules.d/99-fdti.rules
+
+ACTION=="add", ATTRS{idVendor}=="5986", ATTRS{idProduct}=="0536", RUN+="/sbin/modprobe ftdi_sio" RUN+="/bin/sh -c 'echo 5986 0536 > /sys/bus/usb-serial/drivers/ftdi_sio/new_id'"
+
+$ sudo udevadm control --reload
+
+$ reboot
+
+$ ls -l /dev/ttyUSB*
+
+bernard@bernard-W840AU:~$ ls -l /dev/ttyUSB*
+crw-rw---- 1 root dialout 188, 0 mars   6 05:17 /dev/ttyUSB0
+crw-rw---- 1 root dialout 188, 1 mars   6 05:17 /dev/ttyUSB1
+
+
